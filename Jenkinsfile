@@ -1,9 +1,9 @@
 pipeline {
-    agent none
+    agent docker
     stages {
         stage('Build Jar') {
             agent {
-                dockerhub {
+                docker {
                     image 'maven:3-alpine'
                     args '-v $HOME/.m2:/root/.m2'
                 }
@@ -22,7 +22,7 @@ pipeline {
         stage('Push Image') {
             steps {
                 script {
-			        dockerhub.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+			        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
 			        	app.push("${BUILD_NUMBER}")
 			            app.push("latest")
 			        }
