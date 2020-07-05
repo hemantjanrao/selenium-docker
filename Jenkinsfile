@@ -20,14 +20,13 @@ pipeline {
             }
         }
         stage('Push Image') {
-            steps {
-                script {
-			        docker.withRegistry('https://registry.hub.docker.com', 'gcr:dockerhub') {
-			        	app.push("${BUILD_NUMBER}")
-			            app.push("latest")
-			        }
+                steps {
+                    script {
+                        docker.withRegistry('https://gcr.io', 'gcr:dockerhub') {
+                            dockerImage.push()
+                        }
+                    }
                 }
             }
-        }
     }
 }
